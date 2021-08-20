@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from app0.views import *
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('raise-404', raise_404_view),
+    path('raise-500', raise_500_view)
 ]
+
+handler404 = 'app0.views.handler404'
+handler500 = 'app0.views.handler500'
