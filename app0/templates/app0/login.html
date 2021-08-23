@@ -31,7 +31,6 @@
         Kakao.init("2f89bf1f614893436b8174d4d3d7a30c")
         Kakao.Auth.login({
         success: function(authObj) {
-            alert(authObj.access_token);
             login_myserver(authObj.access_token);
         },
         fail: function(err) {
