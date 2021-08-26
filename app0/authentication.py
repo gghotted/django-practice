@@ -12,11 +12,15 @@ class SimpleTokenAuthentication(TokenAuthentication):
     def authenticate_credentials(self, token):
         try:
             token = AccessToken(token)
-            user = User.objects.get(id=token['user_id'])
         except Exception as e:
             raise exceptions.AuthenticationFailed(str(e))
 
-        if not user.is_active:
-            raise exceptions.AuthenticationFailed('User inactive or deleted.')
+        try:
+            user = User.objects.get(id=token['user_id'])
+        except ObjectDoesNotExist:
+            raise exceptions.AuthenticationFailed('Dose not exist user.')
+
+        if not user.token:
+            raise exceptions.AuthenticationFailed('User logged out.')
 
         return (user, str(token))
